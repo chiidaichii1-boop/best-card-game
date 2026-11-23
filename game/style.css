@@ -1,0 +1,290 @@
+/* Starfall Pact — the look: a midnight table, gold trim, four courts told
+   apart by colour and shape. Everything is sized to read at a glance, even
+   shrunk to a thumbnail: big costs, big shapes, big life totals. */
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body { height: 100%; }
+
+body {
+  font-family: Georgia, 'Times New Roman', serif;
+  color: #f2ead8;
+  background:
+    radial-gradient(ellipse 90% 60% at 50% 0%, #2b2350 0%, transparent 70%),
+    radial-gradient(ellipse 70% 50% at 50% 110%, #1a1433 0%, transparent 70%),
+    #0d0a1a;
+  overflow-x: hidden;
+}
+
+#app { min-height: 100vh; display: flex; flex-direction: column; }
+
+/* ---- Screens: title, victory, defeat ---- */
+
+.screen {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 40px 24px;
+  gap: 18px;
+}
+
+.title-screen {
+  background:
+    radial-gradient(circle at 50% 30%, rgba(255, 214, 120, 0.14), transparent 55%),
+    radial-gradient(ellipse 80% 50% at 50% 0%, #2b2350 0%, transparent 70%);
+}
+
+.kicker {
+  letter-spacing: 0.35em;
+  font-size: 13px;
+  color: #d8b45a;
+  text-transform: uppercase;
+}
+
+.screen h1 {
+  font-size: 84px;
+  line-height: 0.95;
+  letter-spacing: 0.04em;
+  color: #ffe9a8;
+  text-shadow: 0 0 34px rgba(255, 214, 120, 0.45), 0 4px 0 #6b4d12;
+}
+
+.subtitle { font-size: 19px; max-width: 620px; line-height: 1.5; color: #d9d2c2; }
+
+.court-legend { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; }
+
+.court-chip {
+  border: 2px solid var(--court);
+  color: var(--court);
+  border-radius: 999px;
+  padding: 8px 16px;
+  font-size: 17px;
+  background: rgba(0, 0, 0, 0.35);
+}
+
+.chip-shape { font-size: 18px; margin-right: 4px; }
+
+.howto {
+  max-width: 640px;
+  font-size: 15px;
+  line-height: 1.55;
+  color: #b9b2a4;
+  border: 1px solid #3a3260;
+  border-radius: 12px;
+  padding: 14px 18px;
+  background: rgba(0, 0, 0, 0.3);
+}
+.howto b { color: #ffe9a8; }
+
+.big-btn {
+  font-family: inherit;
+  font-size: 22px;
+  font-weight: bold;
+  letter-spacing: 0.05em;
+  color: #241a05;
+  background: linear-gradient(180deg, #ffe9a8, #d8a93c);
+  border: none;
+  border-radius: 12px;
+  padding: 16px 42px;
+  cursor: pointer;
+  box-shadow: 0 6px 0 #6b4d12, 0 10px 28px rgba(0, 0, 0, 0.5);
+}
+.big-btn:hover { filter: brightness(1.08); }
+.big-btn:active { transform: translateY(3px); box-shadow: 0 3px 0 #6b4d12; }
+
+.title-foot { font-size: 13px; color: #8f887a; }
+
+.end-screen.win { background: radial-gradient(circle at 50% 30%, rgba(255, 214, 120, 0.22), transparent 55%), rgba(10, 7, 24, 0.9); }
+.end-screen.win h1 { color: #ffe9a8; }
+.end-screen.lose { background: radial-gradient(circle at 50% 30%, rgba(120, 90, 200, 0.22), transparent 55%), rgba(10, 7, 24, 0.9); }
+/* The end screen is a fixed overlay over the final table, so the whole
+   victory or defeat is visible in one frame. */
+.end-screen { position: fixed; inset: 0; z-index: 50; }
+.end-screen.lose h1 { color: #c9b8f5; text-shadow: 0 0 34px rgba(155, 123, 234, 0.5), 0 4px 0 #2c1f4d; }
+
+.end-score { font-size: 22px; color: #e8e0cd; }
+.end-score b { font-size: 28px; }
+
+/* ---- The table ---- */
+
+.table {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 14px 22px 18px;
+  max-width: 1240px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.zone {
+  background: rgba(20, 14, 44, 0.55);
+  border: 1px solid #3a3260;
+  border-radius: 16px;
+  padding: 10px 14px;
+}
+
+.zone-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.side-name { font-size: 15px; letter-spacing: 0.14em; color: #d8b45a; }
+
+.life-wrap { display: flex; align-items: center; gap: 14px; }
+.life { font-size: 26px; color: #ff8f9a; }
+.life-num { font-size: 34px; font-weight: bold; color: #ff5d6e; }
+.life-max { font-size: 15px; color: #9b93a8; }
+.life-bar { width: 170px; height: 12px; border-radius: 999px; background: #241d3d; overflow: hidden; border: 1px solid #4a3f73; }
+.life-fill { height: 100%; background: linear-gradient(90deg, #ff5d6e, #ff9d6e); transition: width 0.4s; }
+
+.foe-hand { display: flex; gap: 4px; }
+.hand-count { font-size: 13px; color: #9b93a8; }
+
+.card-back {
+  width: 34px;
+  height: 48px;
+  border-radius: 6px;
+  background: linear-gradient(160deg, #3b2a6b, #1c1440);
+  border: 1px solid #6b5a9e;
+  color: #d8b45a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+}
+
+.ward-row {
+  display: flex;
+  gap: 10px;
+  min-height: 118px;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 0 2px;
+}
+.ward-empty { color: #6f6884; font-style: italic; font-size: 15px; }
+
+.mid-row {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 2px 6px;
+}
+.banner { flex: 1; font-size: 17px; color: #e8e0cd; font-style: italic; }
+.end-turn {
+  font-family: inherit;
+  font-size: 17px;
+  font-weight: bold;
+  color: #241a05;
+  background: linear-gradient(180deg, #ffe9a8, #d8a93c);
+  border: none;
+  border-radius: 10px;
+  padding: 11px 24px;
+  cursor: pointer;
+  box-shadow: 0 4px 0 #6b4d12;
+}
+.end-turn:disabled { opacity: 0.45; cursor: default; box-shadow: none; }
+.end-turn:not(:disabled):hover { filter: brightness(1.08); }
+.log {
+  width: 330px;
+  max-height: 64px;
+  overflow: hidden;
+  font-size: 13px;
+  line-height: 1.45;
+  color: #b9b2a4;
+  text-align: right;
+}
+.log p:first-child { color: #ffe9a8; }
+
+.mana-row { display: flex; align-items: center; gap: 5px; }
+.mana-label { font-size: 14px; color: #9b93a8; margin-right: 4px; }
+.mana-orb { font-size: 15px; color: #3a3260; }
+.mana-orb.full { color: #58c4ff; text-shadow: 0 0 8px rgba(88, 196, 255, 0.8); }
+.mana-count { font-size: 16px; margin-left: 6px; color: #cfe9ff; }
+
+.hand {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  padding: 10px 0 4px;
+  flex-wrap: wrap;
+}
+
+/* ---- Cards ---- */
+
+.card {
+  --court: #888;
+  --court-dark: #444;
+  --court-glow: rgba(136, 136, 136, 0.4);
+  width: 118px;
+  height: 162px;
+  border-radius: 12px;
+  background: linear-gradient(165deg, #f7f1de 0%, #e9dfc4 55%, #d9cba4 100%);
+  color: #241d12;
+  border: 2px solid var(--court-dark);
+  box-shadow: 0 4px 0 var(--court-dark), 0 8px 18px rgba(0, 0, 0, 0.5);
+  position: relative;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.card.playable { cursor: pointer; box-shadow: 0 4px 0 var(--court-dark), 0 0 0 2px #ffd678, 0 0 22px var(--court-glow), 0 8px 18px rgba(0, 0, 0, 0.5); }
+.card.playable:hover { transform: translateY(-10px); }
+.card.selected { transform: translateY(-12px); box-shadow: 0 4px 0 var(--court-dark), 0 0 0 3px #fff, 0 0 26px var(--court-glow); }
+.card.targetable { cursor: crosshair; animation: pulse 1s infinite; }
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 4px 0 var(--court-dark), 0 0 0 2px #ff5d6e, 0 0 14px rgba(255, 93, 110, 0.6); }
+  50% { box-shadow: 0 4px 0 var(--court-dark), 0 0 0 4px #ff5d6e, 0 0 26px rgba(255, 93, 110, 0.9); }
+}
+.card.ward { width: 104px; height: 142px; }
+
+.cost {
+  position: absolute;
+  top: -9px;
+  left: -9px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #7ec8ff, #1f6fb8);
+  color: #fff;
+  font-size: 19px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #dceeff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+.court-shape { font-size: 44px; color: var(--court); line-height: 1.15; text-shadow: 0 2px 0 rgba(0, 0, 0, 0.15); }
+.card-name { font-size: 15px; font-weight: bold; text-align: center; line-height: 1.15; margin-top: 2px; }
+.court-name { font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--court-dark); }
+.stats {
+  margin-top: auto;
+  display: flex;
+  gap: 10px;
+  font-size: 16px;
+  font-weight: bold;
+}
+.stats .attack { color: #b3261e; }
+.stats .health { color: #c2185b; }
+.card-text { font-size: 12.5px; line-height: 1.35; text-align: center; margin-top: 6px; color: #4a3f2c; flex: 1; }
+.spell-tag {
+  font-size: 10px;
+  letter-spacing: 0.28em;
+  color: var(--court-dark);
+  border-top: 1px solid rgba(0, 0, 0, 0.2);
+  padding-top: 4px;
+  width: 100%;
+  text-align: center;
+}
